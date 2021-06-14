@@ -1,7 +1,9 @@
 package br.edu.compartilhagran.ui.dashboard
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
@@ -11,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -28,6 +31,8 @@ class DashboardFragment : Fragment() {
 
     private lateinit var viewModel: DashboardViewModel
     private val CAMERA_REQUEST_CODE = 0
+    private val REQUEST_CAMERA = 100
+
     private lateinit var bitmapPicture: Bitmap
 
     private lateinit var firebaseAuthService: FirebaseAuthService
@@ -53,12 +58,22 @@ class DashboardFragment : Fragment() {
     private fun savePicture(inflate: View) {
         var photoImageView = inflate.findViewById<ImageView>(R.id.photoImageView)
         photoImageView.setOnClickListener {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-            if (takePictureIntent.resolveActivity(requireContext().packageManager) != null) {
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
+            if(checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+                if (takePictureIntent.resolveActivity(requireContext().packageManager) != null) {
+                    startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)
+                } else {
+                    Toast.makeText(requireContext(), "CUCO!", Toast.LENGTH_SHORT).show()
+                }
+
             } else {
-                Toast.makeText(requireContext(), "CUCO!", Toast.LENGTH_SHORT).show()
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                    println("É necessário o uso da câmera para esta funcionalidade.")
+                }
+                requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
             }
         }
     }
@@ -78,7 +93,6 @@ class DashboardFragment : Fragment() {
         })
 
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

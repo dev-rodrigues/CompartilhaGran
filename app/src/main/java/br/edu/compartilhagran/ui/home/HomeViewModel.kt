@@ -12,11 +12,15 @@ class HomeViewModel(
     private val annotationService: AnnotationService
 ) : ViewModel() {
 
-    fun findAnnotationsToUser() {
-    }
-
-
     private val _annotations = MutableLiveData<List<Annotation>>();
     val annotations: LiveData<List<Annotation>>
         get() = _annotations
+
+    fun findAnnotationsToUser() {
+        var emailKey = firebaseAuthService.getUser().email!!
+        annotationService.findBy(emailKey).addOnSuccessListener {
+            _annotations.value = it.toObjects(Annotation::class.java)
+        }
+
+    }
 }
