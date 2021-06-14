@@ -8,16 +8,14 @@ import androidx.lifecycle.ViewModel
 import br.edu.compartilhagran.domain.entity.Annotation
 import br.edu.compartilhagran.infrastructure.service.AnnotationService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
-import com.google.firebase.storage.StorageReference
+import java.io.ByteArrayOutputStream
 import java.util.*
-
 
 class DashboardViewModel(
     private val firebaseAuthService: FirebaseAuthService,
     private val annotationService: AnnotationService
 ) : ViewModel() {
 
-    //var storageRef: StorageReference = storage.getReference()
 
     private val _status = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = _status
@@ -29,14 +27,14 @@ class DashboardViewModel(
 
         var emailKey = firebaseAuthService.getUser().email
 
-
-
+        val stream = ByteArrayOutputStream()
+        picture.compress(Bitmap.CompressFormat.PNG, 90, stream)
+        val image = stream.toByteArray()
 
         var newAnnotation = Annotation(
             null,
             emailKey,
             Calendar.getInstance().time,
-            "Arrays.asList(image)",
             title,
             description
         )

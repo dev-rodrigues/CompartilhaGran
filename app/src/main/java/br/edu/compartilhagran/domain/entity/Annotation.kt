@@ -9,7 +9,7 @@ class Annotation(
     var id: String ?= null,
     var foreignKey: String ?= null,
     var createdAt: Date?= null,
-    var urlImage: String ?= null,
+//    var urlImage: List<ByteArray> ?= null,
     var title: String ?= null,
     var description: String ?= null
 )
