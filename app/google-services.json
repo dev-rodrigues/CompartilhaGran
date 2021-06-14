@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "71487463177",
+    "project_id": "compartilhagran-85ce5",
+    "storage_bucket": "compartilhagran-85ce5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71487463177:android:9dd0472867ecf94c357dd8",
+        "android_client_info": {
+          "package_name": "br.edu.compartilhagran"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71487463177-vqv58fru26tvsqf0sk0sirt7bm8fbdq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKNySS9jCL9WJeXtdBJABF9SQxDWYIG0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71487463177-vqv58fru26tvsqf0sk0sirt7bm8fbdq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

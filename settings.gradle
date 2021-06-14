@@ -1,0 +1,2 @@
+rootProject.name = "CompartilhaGran"
+include ':app'
