@@ -85,15 +85,8 @@ class DashboardFragment : Fragment() {
             val takenImage = data?.extras?.get("data") as Bitmap
 
             bitmapPicture = takenImage
+            photoImageView.setImageBitmap(bitmapPicture)
 
-            val file = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), Calendar.getInstance().time.toString() + ".jpeg")
-            val fOut = FileOutputStream(file)
-
-            takenImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
-
-            photoImageView.setImageBitmap(takenImage)
-            fOut.flush()
-            fOut.close()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -103,8 +96,20 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonSave.setOnClickListener {
+
             var editTextTextAnnotationTitle = editTextTextAnnotationTitle.text.toString()
             var editTextTextAnnotationDescription = editTextTextAnnotationDescription.text.toString()
+
+            val file = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), editTextTextAnnotationTitle + Calendar.getInstance().time.toString() + ".jpeg")
+            val fOut = FileOutputStream(file)
+
+            bitmapPicture.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+
+
+            fOut.flush()
+            fOut.close()
+
+
             var picture = bitmapPicture
 
             viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, picture)
