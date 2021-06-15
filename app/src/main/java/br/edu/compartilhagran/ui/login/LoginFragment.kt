@@ -1,10 +1,10 @@
 package br.edu.compartilhagran.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +24,7 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,6 +51,7 @@ class LoginFragment : Fragment() {
         firebaseAuthService = FirebaseAuthServiceImpl();
         inputTextValidation = InputTextValidationImpl();
         callbackManager = CallbackManager.Factory.create();
+        firebaseAuth = FirebaseAuth.getInstance()
 
 
         configureInput(inflate)
@@ -61,22 +63,19 @@ class LoginFragment : Fragment() {
 
     private fun configureInput(inflate: View) {
         var signup = inflate.findViewById<TextView>(R.id.signup)
-        var _login_facebook_button = inflate.findViewById<Button>(R.id.login_facebook_button)
+        var _login_facebook_button = inflate.findViewById<LoginButton>(R.id.login_facebook_button)
 
-        //login_facebook_button.setReadPermissions("email", "public_profile")
+        _login_facebook_button.setReadPermissions("email", "public_profile")
+        _login_facebook_button.setFragment(this)
+
         signup.setOnClickListener {
             findNavController().navigate(R.id.signupFragment)
         }
-
-
-        _login_facebook_button.setOnClickListener {
-            signInFacebook()
-        }
-
+        signInFacebook(_login_facebook_button)
     }
 
-    private fun signInFacebook() {
-        login_facebook_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+    private fun signInFacebook(_login_facebook_button: LoginButton) {
+        _login_facebook_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
             override fun onSuccess(loginResult: LoginResult?) {
                 handleFacebookAccessToken(loginResult!!.accessToken)
             }
@@ -86,9 +85,15 @@ class LoginFragment : Fragment() {
             }
 
             override fun onError(exception: FacebookException) {
-                println("error")
+                println(exception.message)
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun handleFacebookAccessToken(accessToken: AccessToken?) {
@@ -97,10 +102,14 @@ class LoginFragment : Fragment() {
             .addOnSuccessListener {
                 if (it != null) {
                     val user = firebaseAuth.currentUser
+                    println(user)
                     findNavController().navigate(R.id.navigation_home)
                 } else {
                     Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
             }
     }
 

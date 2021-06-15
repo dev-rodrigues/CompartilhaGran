@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.edu.compartilhagran.R
+import br.edu.compartilhagran.domain.objectvalue.InputText
 import br.edu.compartilhagran.infrastructure.service.AnnotationService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
 import br.edu.compartilhagran.infrastructure.service.impl.AnnotationServiceImpl
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DashboardFragment : Fragment() {
 
@@ -68,7 +70,6 @@ class DashboardFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), "CUCO!", Toast.LENGTH_SHORT).show()
                 }
-
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     println("É necessário o uso da câmera para esta funcionalidade.")
@@ -80,7 +81,10 @@ class DashboardFragment : Fragment() {
 
     private fun configureViewModel() {
         val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService)
-        viewModel = ViewModelProvider(requireActivity(), dashboardViewModelFactory).get(DashboardViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            dashboardViewModelFactory
+        ).get(DashboardViewModel::class.java)
 
         viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             if (it)
@@ -110,15 +114,18 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonSave.setOnClickListener {
-
             var editTextTextAnnotationTitle = editTextTextAnnotationTitle.text.toString()
             var editTextTextAnnotationDescription = editTextTextAnnotationDescription.text.toString()
+
+            var inputs = ArrayList<InputText>()
+            inputs.addAll(Arrays.asList(
+
+            ))
 
             val file = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), editTextTextAnnotationTitle + Calendar.getInstance().time.toString() + ".jpeg")
             val fOut = FileOutputStream(file)
 
             bitmapPicture.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
-
 
             fOut.flush()
             fOut.close()
@@ -127,7 +134,6 @@ class DashboardFragment : Fragment() {
             var picture = bitmapPicture
 
             viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, picture)
-
         }
     }
 }

@@ -27,10 +27,6 @@ class DashboardViewModel(
 
         var emailKey = firebaseAuthService.getUser().email
 
-        val stream = ByteArrayOutputStream()
-        picture.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        val image = stream.toByteArray()
-
         var newAnnotation = Annotation(
             null,
             emailKey,
