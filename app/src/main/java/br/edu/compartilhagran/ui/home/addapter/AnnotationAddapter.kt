@@ -1,14 +1,21 @@
 package br.edu.compartilhagran.ui.home.addapter
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.compartilhagran.R
 import br.edu.compartilhagran.domain.entity.Annotation
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AnnotationAddapter(var annotations: ArrayList<Annotation>, private val actionClick: (Annotation) -> Unit): RecyclerView.Adapter<AnnotationAddapter.ViewHolder>() {
 
@@ -19,12 +26,15 @@ class AnnotationAddapter(var annotations: ArrayList<Annotation>, private val act
         var annotationTitle: TextView = itemView.findViewById(R.id.annotationTitle)
         var annotationDescription: TextView = itemView.findViewById(R.id.annotationDescription)
         var annotationDate: TextView = itemView.findViewById(R.id.annotationDate)
+
+        var imageUpload: ImageView = itemView.findViewById(R.id.imageUpload)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnotationAddapter.ViewHolder {
         return  ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_annotation, parent, false))
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AnnotationAddapter.ViewHolder, position: Int) {
         val sdf = SimpleDateFormat("dd/M/yyyy")
 
@@ -32,8 +42,26 @@ class AnnotationAddapter(var annotations: ArrayList<Annotation>, private val act
         holder.annotationDescription.text = annotations[position].description
         holder.annotationDate.text = sdf.format(annotations[position].createdAt)
 
+        val urlImage = annotations[position].urlImage
+
+        if (!urlImage.isNullOrEmpty()) {
+            val handleBitmap = handleBitmap(urlImage)
+            holder.imageUpload.setImageBitmap(handleBitmap)
+        }
+
         holder.itemView.setOnClickListener{
             actionClick(annotations[position])
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun handleBitmap(photo: String): Bitmap {
+        val byteArray: ByteArray = Base64.getDecoder().decode(photo)
+
+        val bmImage = BitmapFactory.decodeByteArray(
+            byteArray, 0,
+            byteArray.size
+        )
+        return bmImage
     }
 }

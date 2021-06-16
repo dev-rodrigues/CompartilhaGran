@@ -23,7 +23,7 @@ class DashboardViewModel(
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
 
-    fun saveAnnotation(title: String, description: String, picture: Bitmap) {
+    fun saveAnnotation(title: String, description: String, picture: String) {
 
         var emailKey = firebaseAuthService.getUser().email
 
@@ -32,7 +32,8 @@ class DashboardViewModel(
             emailKey,
             Calendar.getInstance().time,
             title,
-            description
+            description,
+            picture
         )
 
         var task = annotationService.storage(newAnnotation)

@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="insta_button_ok">#A2EEAE</color>
+    <color name="insta_button_ok">@color/com_facebook_blue</color>
     <color name="insta_text_color">#D6ECCD</color>
 </resources>

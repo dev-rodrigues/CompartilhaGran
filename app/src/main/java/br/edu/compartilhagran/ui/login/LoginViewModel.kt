@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
 
 class LoginViewModel(
@@ -32,6 +33,10 @@ class LoginViewModel(
                 Log.e("LoginViewModel", "${it.message}")
                 _msg.value = "${it.message}"
             }
+    }
+
+    fun logout() {
+        firebaseAuthService.logout()
     }
 
 }

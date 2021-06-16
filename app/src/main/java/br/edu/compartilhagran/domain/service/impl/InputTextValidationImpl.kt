@@ -1,5 +1,6 @@
 package br.edu.compartilhagran.domain.service.impl
 
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.annotation.RequiresApi
 import br.edu.compartilhagran.domain.objectvalue.InputText
@@ -21,6 +22,17 @@ class InputTextValidationImpl: InputTextValidation {
                 messages.add(UiMessageError(it.componentName, "O campo ${it.componentName} é obrigatório", TypeError.VALIDATION))
             }
         }
-        return Optional.of(messages).orElse(null);
+        return messages
+    }
+
+    override fun validate(bitMap: Bitmap?): ArrayList<UiMessageError>? {
+        var messages = ArrayList<UiMessageError>()
+
+        if (bitMap == null)
+            messages.add(
+                UiMessageError("Imagem", "O input de imagem é obrigatório", TypeError.VALIDATION)
+            )
+
+        return messages
     }
 }

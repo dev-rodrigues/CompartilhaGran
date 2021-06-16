@@ -47,19 +47,22 @@ class LoginFragment : Fragment() {
     ): View? {
         val inflate = inflater.inflate(R.layout.login_fragment, container, false);
 
-
         firebaseAuthService = FirebaseAuthServiceImpl();
         inputTextValidation = InputTextValidationImpl();
         callbackManager = CallbackManager.Factory.create();
         firebaseAuth = FirebaseAuth.getInstance()
 
-
         configureInput(inflate)
         configureViewModel()
-
+        invalidAuthentication()
 
         return inflate;
     }
+
+    private fun invalidAuthentication() {
+        firebaseAuthService.logout();
+    }
+
 
     private fun configureInput(inflate: View) {
         var signup = inflate.findViewById<TextView>(R.id.signup)
@@ -92,7 +95,6 @@ class LoginFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -102,7 +104,10 @@ class LoginFragment : Fragment() {
             .addOnSuccessListener {
                 if (it != null) {
                     val user = firebaseAuth.currentUser
-                    println(user)
+
+                    val mainActivity = requireActivity() as MainActivity
+                    mainActivity.nav_view.visibility = View.VISIBLE
+
                     findNavController().navigate(R.id.navigation_home)
                 } else {
                     Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
@@ -112,8 +117,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
             }
     }
-
-
 
     private fun configureViewModel() {
         val loginViewModelFactory = LoginViewModelFactory(firebaseAuthService);
@@ -165,10 +168,14 @@ class LoginFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity).supportActionBar?.hide()
+
+        val mainActivity = requireActivity() as MainActivity
+        mainActivity.nav_view.visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         (activity as AppCompatActivity).supportActionBar?.show()
+
     }
 }
