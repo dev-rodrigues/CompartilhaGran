@@ -126,15 +126,15 @@ class DashboardFragment : Fragment() {
 
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            if (editTextTextAnnotationLocalizationLatitude != null && editTextTextAnnotationLocalizationLongitude != null) {
-                if (location != null) {
-                    LATITUDE = "Latitude ${location?.latitude.toString()}"
-                    LONGITUDE = "Longitude ${location?.longitude.toString()}"
-
-                    editTextTextAnnotationLocalizationLatitude.text = LATITUDE
-                    editTextTextAnnotationLocalizationLongitude.text = LONGITUDE
-                }
-            }
+//            if (editTextTextAnnotationLocalizationLatitude != null && editTextTextAnnotationLocalizationLongitude != null) {
+//                if (location != null) {
+//                    LATITUDE = "Latitude ${location?.latitude.toString()}"
+//                    LONGITUDE = "Longitude ${location?.longitude.toString()}"
+//
+//                    editTextTextAnnotationLocalizationLatitude.text = LATITUDE
+//                    editTextTextAnnotationLocalizationLongitude.text = LONGITUDE
+//                }
+//            }
 
         }
 

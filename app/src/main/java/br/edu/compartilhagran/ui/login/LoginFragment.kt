@@ -52,6 +52,7 @@ class LoginFragment : Fragment() {
         callbackManager = CallbackManager.Factory.create();
         firebaseAuth = FirebaseAuth.getInstance()
 
+
         configureInput(inflate)
         configureViewModel()
         invalidAuthentication()
@@ -66,6 +67,7 @@ class LoginFragment : Fragment() {
 
     private fun configureInput(inflate: View) {
         var signup = inflate.findViewById<TextView>(R.id.signup)
+
         var _login_facebook_button = inflate.findViewById<LoginButton>(R.id.login_facebook_button)
 
         _login_facebook_button.setReadPermissions("email", "public_profile")
@@ -76,6 +78,7 @@ class LoginFragment : Fragment() {
         }
         signInFacebook(_login_facebook_button)
     }
+
 
     private fun signInFacebook(_login_facebook_button: LoginButton) {
         _login_facebook_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
