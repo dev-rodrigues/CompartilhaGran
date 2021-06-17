@@ -32,6 +32,9 @@ import br.edu.compartilhagran.infrastructure.service.AnnotationService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
 import br.edu.compartilhagran.infrastructure.service.impl.AnnotationServiceImpl
 import br.edu.compartilhagran.infrastructure.service.impl.FirebaseAuthServiceImpl
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -39,21 +42,23 @@ import java.io.FileOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var viewModel: DashboardViewModel
 
+    private val PERMISSION_LOCATION = Manifest.permission_group.LOCATION
     private val CAMERA_REQUEST_CODE = 0
     private val REQUEST_CAMERA = 100
     private val REQUEST_LOCATION = 200
-    private val PERMISSION_LOCATION = Manifest.permission_group.LOCATION
-    private var LATITUDE: String? = null
-    private var LONGITUDE: String? =null
+    private var LATITUDE: Double? =null
+    private var LONGITUDE: Double? =null
 
     private var bitmapPicture: Bitmap? = null
     private lateinit var firebaseAuthService: FirebaseAuthService
     private lateinit var annotationService: AnnotationService
     private lateinit var inputTextValidation: InputTextValidation
+    private lateinit var gMap: GoogleMap
+    private lateinit var mapView: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +74,8 @@ class DashboardFragment : Fragment() {
         configureViewModel()
         savePicture(inflate)
         configureButtonLocation(inflate)
+
+
 
         return inflate
     }
@@ -124,18 +131,22 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-//            if (editTextTextAnnotationLocalizationLatitude != null && editTextTextAnnotationLocalizationLongitude != null) {
-//                if (location != null) {
-//                    LATITUDE = "Latitude ${location?.latitude.toString()}"
-//                    LONGITUDE = "Longitude ${location?.longitude.toString()}"
-//
-//                    editTextTextAnnotationLocalizationLatitude.text = LATITUDE
-//                    editTextTextAnnotationLocalizationLongitude.text = LONGITUDE
-//                }
-//            }
+            if (location != null && textViewLatitudeLongitude != null) {
+                LATITUDE = location.latitude
+                LONGITUDE = location.longitude
 
+                val LatitudeToString = LATITUDE?.format(3).toString()
+                val LongitudeToString = LONGITUDE?.format(3).toString()
+                textViewLatitudeLongitude.text = "LATITUDE" + LatitudeToString + " : LONGITUDE" + LongitudeToString
+
+                val position = LatLng(LATITUDE!!, LONGITUDE!!)
+                gMap.addMarker(MarkerOptions().position(position).title("Fim de mundo"))
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15f))
+            }
         }
 
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
@@ -208,6 +219,15 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mapView = view.findViewById(R.id.mapView)
+
+        if (mapView != null) {
+            mapView.onCreate(null)
+            mapView.onResume()
+            mapView.getMapAsync(this)
+        }
+
+
         buttonSave.setOnClickListener {
             var editTextTextAnnotationTitle = editTextTextAnnotationTitle.text.toString()
             var editTextTextAnnotationDescription = editTextTextAnnotationDescription.text.toString()
@@ -251,5 +271,15 @@ class DashboardFragment : Fragment() {
 
         fOut.flush()
         fOut.close()
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        MapsInitializer.initialize(requireContext())
+        gMap = googleMap
+        if (LATITUDE != null && LONGITUDE != null) {
+            val position = LatLng(LATITUDE!!, LONGITUDE!!)
+            gMap.addMarker(MarkerOptions().position(position).title("Fim de mundo"))
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15f))
+        }
     }
 }

@@ -49,9 +49,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="#585ce2"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/insta_button_ok"
         android:text="Login"
-        android:textColor="#00e5be"
+        android:textColor="@color/instal_effect"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,6 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SIGN UP"
+
         android:textColor="#d73be0"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -98,14 +100,13 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_facebook_button"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="MissingClass" />
