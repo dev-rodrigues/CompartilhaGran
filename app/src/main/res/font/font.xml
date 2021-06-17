@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font android:font="@font/titaniaregular"/>
+    <font android:font="@font/neon"/>
+    <font android:font="@font/titaniaoutline"/>
+    <font android:font="@font/titaniashadow"/>
+</font-family>
