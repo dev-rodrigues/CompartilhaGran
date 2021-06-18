@@ -22,10 +22,9 @@
     <style name="Theme.CompartilhaGran.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CompartilhaGran.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    
-    <style name="roundmimageview" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">25dp</item>
-        <item name="color">@color/white</item>
+
+    <style name="RoundedSquare">
+        <item name="cornerSize">20%</item>
     </style>
+
 </resources>
