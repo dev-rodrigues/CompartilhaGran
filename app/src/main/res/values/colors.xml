@@ -12,4 +12,5 @@
     <color name="insta_button_ok">@color/com_facebook_blue</color>
     <color name="insta_text_color">#D6ECCD</color>
     <color name="text_default">#232426</color>
+    <color name="gray_primary">#e0e0e0</color>
 </resources>
