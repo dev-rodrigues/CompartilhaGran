@@ -24,7 +24,6 @@ class SignupViewModel(
 
         task
             .addOnSuccessListener {
-                _status.value = true
                 _msg.value = "Cadastro no FirebaseAuth realizado com sucesso."
 
                 var userDetail = UserDetail(null, email, fullName)
@@ -32,7 +31,11 @@ class SignupViewModel(
 
                 taskDetail
                     .addOnSuccessListener {
+                        _status.value = true
                         _msg.value = "User detail sucessfully registered"
+                    }
+                    .addOnFailureListener {
+                        _msg.value = it.message
                     }
 
             }

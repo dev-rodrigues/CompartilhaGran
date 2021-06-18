@@ -1,6 +1,5 @@
 package br.edu.compartilhagran.ui.home
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +17,7 @@ class HomeViewModel(
         get() = _annotations
 
     init {
-        teste()
+        background()
     }
 
     fun findAnnotationsToUser() {
@@ -28,14 +27,12 @@ class HomeViewModel(
         }
     }
 
-    fun teste() {
-        annotationService.monitorInBackground("teste@teste.com.br").addSnapshotListener {
+    fun background() {
+        var userKey = firebaseAuthService.getUser().email!!
+        annotationService.monitorInBackground(userKey).addSnapshotListener {
             snapshot, error ->
             if (snapshot != null)
                 _annotations.value = snapshot.toObjects(Annotation::class.java)
-
-//            snapshot?.toObjects(Annotation::class.java)
-            println("CUCO!")
         }
     }
 }

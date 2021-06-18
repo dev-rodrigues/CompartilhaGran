@@ -13,5 +13,5 @@
     <color name="insta_button_ok">#585ce2</color>
     <color name="insta_text_effect">#d73be0</color>
     <color name="insta_text_color">#D6ECCD</color>
-    <color name="text_default">#232426</color>
+    <color name="text_default">#444444</color>
 </resources>
