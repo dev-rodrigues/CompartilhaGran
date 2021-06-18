@@ -28,6 +28,6 @@ class UserDetailDAOImpl: UserDetailDAO {
     }
 
     override fun update(entity: UserDetail, key: String): Task<Void> {
-        throw NotImplementedError("função não implementada")
+        return db.document(key).set(entity)
     }
 }

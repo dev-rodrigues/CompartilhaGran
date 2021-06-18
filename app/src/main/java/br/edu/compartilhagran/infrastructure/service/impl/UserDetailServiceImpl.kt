@@ -22,4 +22,8 @@ class UserDetailServiceImpl: UserDetailService {
     override fun monitorInBackground(key: String): Query {
         return userDetailDAO.monitorInBackground(key)
     }
+
+    override fun updateUserDetails(userKey: String, userDetail: UserDetail): Task<Void> {
+        return userDetailDAO.update(userDetail, userKey)
+    }
 }

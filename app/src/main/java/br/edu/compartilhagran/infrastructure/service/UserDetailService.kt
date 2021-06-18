@@ -9,4 +9,5 @@ interface UserDetailService {
     fun register(userDetail: UserDetail): Task<Void>
     fun findUserDetailBy(key: String): Task<QuerySnapshot>
     fun monitorInBackground(key: String): Query
+    fun updateUserDetails(userKey: String, obj: UserDetail): Task<Void>
 }

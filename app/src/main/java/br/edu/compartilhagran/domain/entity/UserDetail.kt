@@ -6,5 +6,6 @@ class UserDetail(
     @DocumentId
     var id: String ?= null,
     var foreignKey: String ?= null,
-    var fullName: String ?= null
+    var fullName: String ?= null,
+    var nickName: String ?= null
 )

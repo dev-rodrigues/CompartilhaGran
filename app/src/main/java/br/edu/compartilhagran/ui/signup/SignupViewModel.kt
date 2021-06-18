@@ -19,14 +19,14 @@ class SignupViewModel(
     val msg: LiveData<String> = _msg
 
 
-    fun register(email: String, password: String, fullName: String) {
+    fun register(email: String, password: String, fullName: String, nickName: String) {
         val task = firebaseAuthService.createUserWithEmailAndPassword(email, password);
 
         task
             .addOnSuccessListener {
                 _msg.value = "Cadastro no FirebaseAuth realizado com sucesso."
 
-                var userDetail = UserDetail(null, email, fullName)
+                var userDetail = UserDetail(null, email, fullName, nickName)
                 val taskDetail = userDetailService.register(userDetail)
 
                 taskDetail

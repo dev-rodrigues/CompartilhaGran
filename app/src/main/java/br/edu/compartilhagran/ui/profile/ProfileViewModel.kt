@@ -17,6 +17,9 @@ class ProfileViewModel(
 
     private var userKey: String = firebaseAuthService.getUser().email!!
 
+    private val _status = MutableLiveData<Boolean>()
+    val status: LiveData<Boolean> = _status
+
     private val _annotations = MutableLiveData<List<Annotation>>();
     val annotations: LiveData<List<Annotation>>
         get() = _annotations
@@ -50,7 +53,30 @@ class ProfileViewModel(
     }
 
     fun editProfile(userName: String, nickName: String) {
+        var task = userDetailService.findUserDetailBy(this.userKey)
 
+        task
+            .addOnSuccessListener {
+                val list = it.toObjects(UserDetail::class.java)
+                var selected = list[0]
+
+                selected.fullName = userName
+                selected.nickName = nickName
+
+                var taskUpdate = userDetailService.updateUserDetails(selected.id!!, selected)
+
+                taskUpdate
+                    .addOnSuccessListener {
+                        _status.value = true
+                    }
+                    .addOnFailureListener {
+                        _status.value = false
+                    }
+
+            }
+            .addOnFailureListener {
+                _msg.value = "${it.message}"
+            }
     }
 
     fun monitorin() {

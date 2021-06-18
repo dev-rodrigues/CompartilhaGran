@@ -1,15 +1,14 @@
 package br.edu.compartilhagran.ui.signup
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.edu.compartilhagran.R
 import br.edu.compartilhagran.domain.objectvalue.InputText
@@ -25,11 +24,10 @@ import kotlin.collections.ArrayList
 
 class SignupFragment : Fragment() {
 
-    private lateinit var viewModel: SignupViewModel;
-
-    private lateinit var firebaseAuthService: FirebaseAuthService;
-    private lateinit var userDetailService: UserDetailService;
-    private lateinit var inputTextValidation: InputTextValidation;
+    private lateinit var viewModel: SignupViewModel
+    private lateinit var firebaseAuthService: FirebaseAuthService
+    private lateinit var userDetailService: UserDetailService
+    private lateinit var inputTextValidation: InputTextValidation
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +35,18 @@ class SignupFragment : Fragment() {
     ): View? {
         val inflate = inflater.inflate(R.layout.signup_fragment, container, false);
 
-        firebaseAuthService = FirebaseAuthServiceImpl();
-        userDetailService = UserDetailServiceImpl();
-        inputTextValidation = InputTextValidationImpl();
+        firebaseAuthService = FirebaseAuthServiceImpl()
+        userDetailService = UserDetailServiceImpl()
+        inputTextValidation = InputTextValidationImpl()
 
-        configureViewModel();
-        configureNavigation(inflate);
+        configureViewModel()
+        configureNavigation(inflate)
 
-        return inflate;
+        return inflate
     }
 
     private fun configureNavigation(inflate: View) {
-        var returnLogin = inflate.findViewById<TextView>(R.id.returnLogin)
+        val returnLogin = inflate.findViewById<TextView>(R.id.returnLogin)
         returnLogin.setOnClickListener {
             findNavController().navigate(R.id.loginFragment)
         }
@@ -56,26 +54,27 @@ class SignupFragment : Fragment() {
 
     private fun configureViewModel() {
         val loginViewModelFactory = SignupViewModelFactory(firebaseAuthService, userDetailService)
-        viewModel = ViewModelProvider(this, loginViewModelFactory).get(SignupViewModel::class.java);
+        viewModel = ViewModelProvider(this, loginViewModelFactory).get(SignupViewModel::class.java)
 
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+        viewModel.status.observe(viewLifecycleOwner, {
             if(it)
                 findNavController().popBackStack()
         })
 
-        viewModel.msg.observe(viewLifecycleOwner, Observer {
+        viewModel.msg.observe(viewLifecycleOwner, {
             if(!it.isNullOrBlank())
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState)
 
         btnSignupRegister.setOnClickListener {
-            var inputSignupFullName = inputSignupFullName.text.toString();
-            var inputSignupEmail = inputSignupEmail.text.toString();
-            var inputSignupPassword = inputSignupPassword.text.toString();
+            val inputSignupFullName = inputSignupFullName.text.toString()
+            val inputSignupEmail = inputSignupEmail.text.toString()
+            val inputSignupPassword = inputSignupPassword.text.toString()
+            val inputSignupNickname = inputSignupNickname.text.toString()
 
             val inputs = ArrayList<InputText>()
 
@@ -83,15 +82,16 @@ class SignupFragment : Fragment() {
                 InputText("FullName", inputSignupFullName),
                 InputText("E-mail", inputSignupEmail),
                 InputText("Password", inputSignupPassword),
+                InputText("Nickname", inputSignupNickname)
             ))
 
-            var validations = inputTextValidation.validate(inputs);
+            val validations = inputTextValidation.validate(inputs)
 
             if (validations.isNullOrEmpty()) {
-                viewModel.register(inputSignupEmail, inputSignupPassword, inputSignupFullName);
+                viewModel.register(inputSignupEmail, inputSignupPassword, inputSignupFullName, inputSignupNickname)
             } else {
                 validations.forEach {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
