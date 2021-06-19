@@ -1,12 +1,14 @@
 package br.edu.compartilhagran.ui.login
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +19,9 @@ import br.edu.compartilhagran.R
 import br.edu.compartilhagran.domain.objectvalue.InputText
 import br.edu.compartilhagran.domain.service.InputTextValidation
 import br.edu.compartilhagran.domain.service.impl.InputTextValidationImpl
+import br.edu.compartilhagran.infrastructure.service.EncryptedService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
+import br.edu.compartilhagran.infrastructure.service.impl.EncryptedServiceImpl
 import br.edu.compartilhagran.infrastructure.service.impl.FirebaseAuthServiceImpl
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -41,6 +45,9 @@ class LoginFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth;
 
 
+
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,7 +58,6 @@ class LoginFragment : Fragment() {
         inputTextValidation = InputTextValidationImpl();
         callbackManager = CallbackManager.Factory.create();
         firebaseAuth = FirebaseAuth.getInstance()
-
 
         configureInput(inflate)
         configureViewModel()
