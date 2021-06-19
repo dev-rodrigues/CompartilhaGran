@@ -75,11 +75,9 @@
 
     <ImageView
         android:id="@+id/photoImageView"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="116dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
         android:contentDescription="View for display"
         android:src="@drawable/ic_baseline_image_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +90,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="3dp"
         android:background="@drawable/rounded_button"
         android:drawableTop="@drawable/ic_gps"
@@ -103,7 +101,7 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="326dp"
+        android:layout_width="320dp"
         android:layout_height="85dp"
         android:layout_marginStart="3dp"
         android:layout_marginTop="8dp"
@@ -121,10 +119,11 @@
         android:id="@+id/textViewLatitudeLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
+        android:layout_marginStart="75dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/insta_text_effect"
-        android:textSize="10sp"
+        android:textSize="8sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapView" />
 

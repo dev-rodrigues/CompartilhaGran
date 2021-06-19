@@ -75,8 +75,6 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         savePicture(inflate)
         configureButtonLocation(inflate)
 
-
-
         return inflate
     }
 
@@ -85,9 +83,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
         find_localization.setOnClickListener {
 
-            var valor = checkSelfPermission(requireContext(), PERMISSION_LOCATION)
-
-            println(valor)
+//            checkSelfPermission(requireContext(), PERMISSION_LOCATION)
 
             if(checkSelfPermission(requireContext(), PERMISSION_LOCATION) == -1) {
                 getCurrentLocation()
@@ -243,6 +239,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
             if (responseValidation.isEmpty()) {
                 savePictureInDirectory(editTextTextAnnotationTitle)
+                saveLocation()
                 viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!)
             } else {
                 responseValidation.forEach {
@@ -250,6 +247,11 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         }
+    }
+
+    private fun saveLocation() {
+        val arquivo = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), Calendar.getInstance().time.toString()+".txt")
+        val fileOutput = FileOutputStream(arquivo)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
