@@ -1,5 +1,6 @@
 package br.edu.compartilhagran.ui.directory.addapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -33,8 +34,12 @@ class DirectoryAddapter(
         return  ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_file, parent, false))
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DirectoryAddapter.ViewHolder, position: Int) {
+        holder.textViewFileName.text = files[position].name
+        holder.textViewFileDate.text = files[position].size.toString() + " KB"
+
         holder.itemView.setOnClickListener {
             actionClick(files[position])
         }

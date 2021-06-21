@@ -36,7 +36,7 @@
             android:layout_marginBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="19-06-2021" />
+            android:text="12kb" />
 
         <Button
             android:id="@+id/button_delete_document"

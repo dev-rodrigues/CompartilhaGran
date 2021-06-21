@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +62,7 @@ class DirectoryFragment : Fragment() {
 
         viewList.adapter = DirectoryAddapter(files as ArrayList<FileDTO>, requireContext(), viewModel) {
             DirectoryDTO.directory = it
+            findNavController().navigate(R.id.documentFragment)
         }
 
         viewList.layoutManager = LinearLayoutManager(requireContext(), OrientationHelper.VERTICAL, false)
