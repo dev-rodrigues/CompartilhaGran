@@ -3,6 +3,7 @@ package br.edu.compartilhagran.infrastructure.dao.impl
 import br.edu.compartilhagran.domain.entity.Annotation
 import br.edu.compartilhagran.infrastructure.dao.AnnotationDAO
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
@@ -13,6 +14,10 @@ class AnnotationDAOImpl: AnnotationDAO {
 
     override fun findBy(key: String): Task<QuerySnapshot> {
         return db.whereEqualTo("foreignKey", key).get();
+    }
+
+    override fun find(): Task<QuerySnapshot> {
+        return db.get()
     }
 
     override fun store(entity: Annotation): Task<Void> {

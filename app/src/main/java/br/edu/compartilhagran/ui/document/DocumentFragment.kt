@@ -35,8 +35,4 @@ class DocumentFragment : Fragment() {
 
         return view
     }
-
-
-
-
 }

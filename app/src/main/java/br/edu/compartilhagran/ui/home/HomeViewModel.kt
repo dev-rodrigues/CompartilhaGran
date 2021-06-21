@@ -21,8 +21,7 @@ class HomeViewModel(
     }
 
     fun findAnnotationsToUser() {
-        var emailKey = firebaseAuthService.getUser().email!!
-        annotationService.findBy(emailKey).addOnSuccessListener {
+        annotationService.list().addOnSuccessListener {
             _annotations.value = it.toObjects(Annotation::class.java)
         }
     }

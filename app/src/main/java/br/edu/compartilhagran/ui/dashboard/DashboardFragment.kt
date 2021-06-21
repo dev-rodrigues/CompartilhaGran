@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -130,6 +131,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
                 1L, 0f, locationListener
             )
         } catch (e: SecurityException) {
+            Log.e("PERMISSÃO", e.message)
             Toast.makeText(requireContext(), "Deu merda", Toast.LENGTH_LONG).show()
         }
     }

@@ -59,6 +59,8 @@ class LoginFragment : Fragment() {
         callbackManager = CallbackManager.Factory.create();
         firebaseAuth = FirebaseAuth.getInstance()
 
+
+
         configureInput(inflate)
         configureViewModel()
         invalidAuthentication()

@@ -1,5 +1,6 @@
 package br.edu.compartilhagran.ui.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,13 +37,14 @@ class ProfileViewModel(
     }
 
     fun findDetailUser() {
-        var task = userDetailService.findUserDetailBy(this.userKey)
+        val task = userDetailService.findUserDetailBy(this.userKey)
 
         task
             .addOnSuccessListener {
                 _userDetails.value = it.toObjects(UserDetail::class.java)
         }
             .addOnFailureListener {
+                Log.e("AUTENTICACAO", it.message)
                 _msg.value = "${it.message}"
         }
 
@@ -53,26 +55,39 @@ class ProfileViewModel(
     }
 
     fun editProfile(userName: String, nickName: String) {
-        var task = userDetailService.findUserDetailBy(this.userKey)
+        val task = userDetailService.findUserDetailBy(this.userKey)
 
         task
             .addOnSuccessListener {
                 val list = it.toObjects(UserDetail::class.java)
-                var selected = list[0]
 
-                selected.fullName = userName
-                selected.nickName = nickName
+                if (list.isNotEmpty()) {
+                    val selected = list[0]
 
-                var taskUpdate = userDetailService.updateUserDetails(selected.id!!, selected)
+                    selected.fullName = userName
+                    selected.nickName = nickName
 
-                taskUpdate
-                    .addOnSuccessListener {
-                        _status.value = true
-                    }
-                    .addOnFailureListener {
-                        _status.value = false
-                    }
+                    val taskUpdate = userDetailService.updateUserDetails(selected.id!!, selected)
 
+                    taskUpdate
+                        .addOnSuccessListener {
+                            _status.value = true
+                        }
+                        .addOnFailureListener {
+                            _status.value = false
+                        }
+                } else {
+                    val email = firebaseAuthService.getUser().email
+                    val newUserDetail:UserDetail = UserDetail(null, email, userName, nickName)
+                    val taskNewUser = userDetailService.register(newUserDetail)
+                    taskNewUser
+                        .addOnSuccessListener {
+                            _status.value = true
+                        }
+                        .addOnFailureListener {
+                            _status.value = false
+                        }
+                }
             }
             .addOnFailureListener {
                 _msg.value = "${it.message}"

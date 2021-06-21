@@ -47,8 +47,10 @@ class ProfileFragment : Fragment() {
 
         viewModel.findDetailUser()
         viewModel.userDetails.observe(viewLifecycleOwner, Observer {
-            var user = viewModel.userDetails.value?.get(0)!!
-            fillFields(user)
+            if (!viewModel.userDetails.value.isNullOrEmpty()) {
+                val user = viewModel.userDetails.value?.get(0)
+                fillFields(user)
+            }
         })
 
         viewModel.annotations.observe(viewLifecycleOwner, Observer {
@@ -65,11 +67,13 @@ class ProfileFragment : Fragment() {
         return view
     }
 
-    private fun fillFields(user: UserDetail) {
-        textViewEmailEdit.text = user.foreignKey
-        textViewUserNameEdit.text = user.fullName
-        editTextTextProfileUserName.setText(user.fullName)
-        editTextTextProfileNickname.setText(user.nickName)
+    private fun fillFields(user: UserDetail?) {
+        if (user != null) {
+            textViewEmailEdit.text = user.foreignKey
+            textViewUserNameEdit.text = user.fullName
+            editTextTextProfileUserName.setText(user.fullName)
+            editTextTextProfileNickname.setText(user.nickName)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

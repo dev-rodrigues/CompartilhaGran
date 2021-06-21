@@ -5,7 +5,7 @@ import br.edu.compartilhagran.infrastructure.gateway.configuration.RetrofitConfi
 import br.edu.compartilhagran.infrastructure.gateway.data.WeatherResponse
 
 class WeatherstackGatewayImpl: WeatherstackGateway {
-    override suspend fun getWeather(long: Double, lat: Double): WeatherResponse? {
-        return RetrofitConfiguration().getInstanceWeather().getWeather(long, lat)
+    override suspend fun getWeather(query:String): WeatherResponse? {
+        return RetrofitConfiguration().getInstanceWeather().getWeather(query)
     }
 }

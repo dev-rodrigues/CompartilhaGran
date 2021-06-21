@@ -19,7 +19,11 @@ class AnnotationServiceImpl: AnnotationService {
         return dao.findBy(email)
     }
 
+    override fun list(): Task<QuerySnapshot> {
+        return dao.find()
+    }
+
     override fun monitorInBackground(key: String): Query {
-        return dao.monitorInBackground(key);
+        return dao.monitorInBackground(key)
     }
 }

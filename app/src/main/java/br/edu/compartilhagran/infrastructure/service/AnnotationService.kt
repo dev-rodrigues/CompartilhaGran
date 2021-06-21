@@ -7,6 +7,7 @@ import com.google.firebase.firestore.QuerySnapshot
 
 interface AnnotationService {
     fun storage(annotation: Annotation): Task<Void>
-    fun findBy(email:String):Task<QuerySnapshot>;
+    fun findBy(email:String):Task<QuerySnapshot>
+    fun list():Task<QuerySnapshot>
     fun monitorInBackground(key: String): Query
 }

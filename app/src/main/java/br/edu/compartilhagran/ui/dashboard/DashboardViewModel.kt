@@ -47,16 +47,14 @@ class DashboardViewModel(
     ) {
 
         // TODO: ESTÁ TRAVANDO AO REALIZAR REQUISICAO
-//        if (LATITUDE != null && LONGITUDE != null) {
-//            val parameter = "$LATITUDE,$LONGITUDE"
-//            CoroutineScope(Dispatchers.IO).launch {
-//                val LatitudeToString = -22.928 //LATITUDE?.format(3)
-//                val LongitudeToString = -43.363//LONGITUDE?.format(3)
-//
-//                response = weatherstackGateway.getWeather(LatitudeToString, LongitudeToString)
-//                println(response?.current?.temperature)
-//            }
-//        }
+        if (LATITUDE != null && LONGITUDE != null) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val LatitudeToString = LATITUDE?.format(3)
+                val LongitudeToString = LONGITUDE?.format(3)
+                val query = "$LatitudeToString,$LongitudeToString"
+                response = weatherstackGateway.getWeather(query)!!
+            }
+        }
 
         var emailKey = firebaseAuthService.getUser().email
 
@@ -66,7 +64,8 @@ class DashboardViewModel(
             Calendar.getInstance().time,
             title,
             description,
-            picture
+            picture,
+            response
         )
 
         var task = annotationService.storage(newAnnotation)
