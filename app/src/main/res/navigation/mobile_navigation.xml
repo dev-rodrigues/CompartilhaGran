@@ -40,4 +40,14 @@
         android:name="br.edu.compartilhagran.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/directoryFragment"
+        android:name="br.edu.compartilhagran.ui.directory.DirectoryFragment"
+        android:label="Directory"
+        tools:layout="@layout/fragment_directory" />
+    <fragment
+        android:id="@+id/documentFragment"
+        android:name="br.edu.compartilhagran.ui.document.DocumentFragment"
+        android:label="document_fragment"
+        tools:layout="@layout/document_fragment" />
 </navigation>

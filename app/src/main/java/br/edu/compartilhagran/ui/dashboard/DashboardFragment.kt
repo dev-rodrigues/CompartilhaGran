@@ -29,9 +29,13 @@ import br.edu.compartilhagran.domain.objectvalue.InputText
 import br.edu.compartilhagran.domain.service.InputTextValidation
 import br.edu.compartilhagran.domain.service.impl.InputTextValidationImpl
 import br.edu.compartilhagran.infrastructure.service.AnnotationService
+import br.edu.compartilhagran.infrastructure.service.FindWeatherService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
+import br.edu.compartilhagran.infrastructure.service.StoreFile
 import br.edu.compartilhagran.infrastructure.service.impl.AnnotationServiceImpl
+import br.edu.compartilhagran.infrastructure.service.impl.FindWeatherServiceImpl
 import br.edu.compartilhagran.infrastructure.service.impl.FirebaseAuthServiceImpl
+import br.edu.compartilhagran.infrastructure.service.impl.StoreFileImpl
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -52,11 +56,14 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     private val REQUEST_LOCATION = 200
     private var LATITUDE: Double? =null
     private var LONGITUDE: Double? =null
-
     private var bitmapPicture: Bitmap? = null
+
     private lateinit var firebaseAuthService: FirebaseAuthService
     private lateinit var annotationService: AnnotationService
+    private lateinit var findWeatherService: FindWeatherService
     private lateinit var inputTextValidation: InputTextValidation
+    private lateinit var storeFile: StoreFile
+
     private lateinit var gMap: GoogleMap
     private lateinit var mapView: MapView
 
@@ -70,6 +77,8 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         firebaseAuthService = FirebaseAuthServiceImpl()
         annotationService = AnnotationServiceImpl()
         inputTextValidation = InputTextValidationImpl()
+        findWeatherService = FindWeatherServiceImpl()
+        storeFile = StoreFileImpl()
 
         configureViewModel()
         savePicture(inflate)
@@ -79,11 +88,9 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun configureButtonLocation(inflate: View) {
-        var find_localization = inflate.findViewById<Button>(R.id.find_localization)
+        val find_localization = inflate.findViewById<Button>(R.id.find_localization)
 
         find_localization.setOnClickListener {
-
-//            checkSelfPermission(requireContext(), PERMISSION_LOCATION)
 
             if(checkSelfPermission(requireContext(), PERMISSION_LOCATION) == -1) {
                 getCurrentLocation()
@@ -102,7 +109,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getCurrentLocation() {
-        var locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val GPS_PROVIDER = LocationManager.GPS_PROVIDER
 
         val gpsEnable = locationManager.isProviderEnabled(GPS_PROVIDER)
@@ -137,7 +144,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
                 val LatitudeToString = LATITUDE?.format(3).toString()
                 val LongitudeToString = LONGITUDE?.format(3).toString()
-                textViewLatitudeLongitude.text = "LATITUDE" + LatitudeToString + " : LONGITUDE" + LongitudeToString
+                textViewLatitudeLongitude.text = "LATITUDE$LatitudeToString : LONGITUDE$LongitudeToString"
 
                 val position = LatLng(LATITUDE!!, LONGITUDE!!)
                 gMap.addMarker(MarkerOptions().position(position).title("Fim de mundo"))
@@ -146,20 +153,17 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         }
 
         override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {
-            TODO("Not yet implemented")
         }
 
         override fun onProviderEnabled(p0: String?) {
-            TODO("Not yet implemented")
         }
 
         override fun onProviderDisabled(p0: String?) {
-            TODO("Not yet implemented")
         }
     }
 
     private fun savePicture(inflate: View) {
-        var photoImageView = inflate.findViewById<ImageView>(R.id.photoImageView)
+        val photoImageView = inflate.findViewById<ImageView>(R.id.photoImageView)
         photoImageView.setOnClickListener {
 
             if(checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -181,18 +185,18 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun configureViewModel() {
-        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService)
+        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService, findWeatherService)
         viewModel = ViewModelProvider(
             this,
             dashboardViewModelFactory
         ).get(DashboardViewModel::class.java)
 
-        viewModel.status.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.status.observe(viewLifecycleOwner, {
             if (it)
                 findNavController().navigate(R.id.navigation_home)
         })
 
-        viewModel.msg.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.msg.observe(viewLifecycleOwner, {
             if (!it.isNullOrEmpty())
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         })
@@ -225,22 +229,24 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
 
         buttonSave.setOnClickListener {
-            var editTextTextAnnotationTitle = editTextTextAnnotationTitle.text.toString()
-            var editTextTextAnnotationDescription = editTextTextAnnotationDescription.text.toString()
+            val editTextTextAnnotationTitle = editTextTextAnnotationTitle.text.toString()
+            val editTextTextAnnotationDescription = editTextTextAnnotationDescription.text.toString()
 
-            var inputs = ArrayList<InputText>()
-            inputs.addAll(Arrays.asList(
-                InputText("title", editTextTextAnnotationTitle),
-                InputText("descrição", editTextTextAnnotationDescription),
-            ))
+            val inputs = ArrayList<InputText>()
+            inputs.addAll(
+                listOf(
+                    InputText("title", editTextTextAnnotationTitle),
+                    InputText("descrição", editTextTextAnnotationDescription)
+                )
+            )
 
             val responseValidation = inputTextValidation.validate(inputs)!!
             responseValidation.addAll(inputTextValidation.validate(bitmapPicture)!!)
 
             if (responseValidation.isEmpty()) {
                 savePictureInDirectory(editTextTextAnnotationTitle)
-                saveLocation()
-                viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!)
+                saveLocation(inputs)
+                viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!, LATITUDE, LONGITUDE)
             } else {
                 responseValidation.forEach {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
@@ -249,9 +255,8 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun saveLocation() {
-        val arquivo = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), Calendar.getInstance().time.toString()+".txt")
-        val fileOutput = FileOutputStream(arquivo)
+    private fun saveLocation(inputs: ArrayList<InputText>) {
+        storeFile.execute(inputs, requireContext())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -259,8 +264,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         val baos = ByteArrayOutputStream()
         bitmapPicture!!.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val b: ByteArray = baos.toByteArray()
-        var encodedImageString = Base64.getEncoder().encodeToString(b)
-        return encodedImageString
+        return Base64.getEncoder().encodeToString(b)
     }
 
     private fun savePictureInDirectory(editTextTextAnnotationTitle: String) {

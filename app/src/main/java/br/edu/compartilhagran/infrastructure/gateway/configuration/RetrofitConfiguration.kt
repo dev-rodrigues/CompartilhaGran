@@ -1,12 +1,18 @@
 package br.edu.compartilhagran.infrastructure.gateway.configuration
 
+import br.edu.compartilhagran.infrastructure.gateway.ViaCepGateway
+import br.edu.compartilhagran.infrastructure.gateway.WeatherstackGateway
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitConfiguration {
 
-    private val URL_BASE = "http://api.weatherstack.com/current?access_key=b71f8c9068c0ad385666450832243d4b&query=" //-22.928,-43.363
+    //
+    private val URL_BASE = "http://api.weatherstack.com/"
+
+
+//    private val URL_BASE = "https://viacep.com.br/ws/"
 
     private var instance: Retrofit?= null
 
@@ -20,5 +26,6 @@ class RetrofitConfiguration {
         return instance as Retrofit
     }
 
-//    fun getInstanceViaCep(): ViaCepGateway = getInstance().create(ViaCepGateway::class.java);
+    fun getInstanceWeather(): WeatherstackGateway = getInstance().create(WeatherstackGateway::class.java);
+    fun getInstanceViaCep(): ViaCepGateway = getInstance().create(ViaCepGateway::class.java);
 }
