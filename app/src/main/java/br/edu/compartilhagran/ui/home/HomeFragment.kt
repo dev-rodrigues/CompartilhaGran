@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,7 @@ class HomeFragment : Fragment() {
     private fun configureViewList(annotations: List<Annotation>, viewList: RecyclerView) {
         viewList.adapter = AnnotationAddapter(annotations as ArrayList<Annotation>) {
             AnnotationDTO.annotationDTO = it
+            findNavController().navigate(R.id.showAnnotationFragment)
         }
         viewList.layoutManager = LinearLayoutManager(requireContext(), OrientationHelper.VERTICAL, false)
     }
