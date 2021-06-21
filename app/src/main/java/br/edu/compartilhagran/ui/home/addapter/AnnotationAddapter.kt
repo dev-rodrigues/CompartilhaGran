@@ -19,7 +19,8 @@ import kotlin.collections.ArrayList
 
 class AnnotationAddapter(
     var annotations: ArrayList<Annotation>,
-    private val actionClick: (Annotation) -> Unit): RecyclerView.Adapter<AnnotationAddapter.ViewHolder>() {
+    private val actionClick: (Annotation) -> Unit
+): RecyclerView.Adapter<AnnotationAddapter.ViewHolder>() {
 
     override fun getItemCount() = annotations.size
 

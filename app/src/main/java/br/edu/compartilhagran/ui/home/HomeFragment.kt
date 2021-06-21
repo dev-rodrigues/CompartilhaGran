@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
 
         viewModel.findAnnotationsToUser()
 
-        val viewList = inflate.findViewById<RecyclerView>(R.id.annotations)
+        val viewList = inflate.findViewById<RecyclerView>(R.id.files)
 
         viewModel.annotations.observe(viewLifecycleOwner, {
             configureViewList(it, viewList)
@@ -55,9 +54,7 @@ class HomeFragment : Fragment() {
     private fun configureViewList(annotations: List<Annotation>, viewList: RecyclerView) {
         viewList.adapter = AnnotationAddapter(annotations as ArrayList<Annotation>) {
             AnnotationDTO.annotationDTO = it
-            // navegar para tela de visualizacao
         }
-
         viewList.layoutManager = LinearLayoutManager(requireContext(), OrientationHelper.VERTICAL, false)
     }
 }

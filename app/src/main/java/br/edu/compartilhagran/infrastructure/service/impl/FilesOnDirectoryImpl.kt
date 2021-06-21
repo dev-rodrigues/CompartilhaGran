@@ -1,17 +1,21 @@
 package br.edu.compartilhagran.infrastructure.service.impl
 
 import android.content.Context
+import br.edu.compartilhagran.infrastructure.service.FilesDirTxtService
 import br.edu.compartilhagran.infrastructure.service.FilesOnDirectory
+import br.edu.compartilhagran.infrastructure.service.data.FileDTO
 
 class FilesOnDirectoryImpl: FilesOnDirectory {
-    override fun execute(context: Context): List<String> {
 
-        var files = context.filesDir
+    var filesDir: FilesDirTxtService = FilesDirTxtServiceImpl()
 
-        files.name
-        files.path
-        files.totalSpace
+    override fun execute(context: Context): List<FileDTO> {
+        var response = ArrayList<FileDTO>()
 
-        return listOf()
+        filesDir.getFiles(context).forEach {
+            response.add(FileDTO(it.name, it.length(), it.path))
+        }
+
+        return response
     }
 }

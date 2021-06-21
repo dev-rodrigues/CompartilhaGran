@@ -29,9 +29,11 @@ import br.edu.compartilhagran.domain.objectvalue.InputText
 import br.edu.compartilhagran.domain.service.InputTextValidation
 import br.edu.compartilhagran.domain.service.impl.InputTextValidationImpl
 import br.edu.compartilhagran.infrastructure.service.AnnotationService
+import br.edu.compartilhagran.infrastructure.service.FindWeatherService
 import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
 import br.edu.compartilhagran.infrastructure.service.StoreFile
 import br.edu.compartilhagran.infrastructure.service.impl.AnnotationServiceImpl
+import br.edu.compartilhagran.infrastructure.service.impl.FindWeatherServiceImpl
 import br.edu.compartilhagran.infrastructure.service.impl.FirebaseAuthServiceImpl
 import br.edu.compartilhagran.infrastructure.service.impl.StoreFileImpl
 import com.google.android.gms.maps.*
@@ -58,6 +60,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var firebaseAuthService: FirebaseAuthService
     private lateinit var annotationService: AnnotationService
+    private lateinit var findWeatherService: FindWeatherService
     private lateinit var inputTextValidation: InputTextValidation
     private lateinit var storeFile: StoreFile
 
@@ -74,6 +77,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         firebaseAuthService = FirebaseAuthServiceImpl()
         annotationService = AnnotationServiceImpl()
         inputTextValidation = InputTextValidationImpl()
+        findWeatherService = FindWeatherServiceImpl()
         storeFile = StoreFileImpl()
 
         configureViewModel()
@@ -181,7 +185,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun configureViewModel() {
-        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService)
+        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService, findWeatherService)
         viewModel = ViewModelProvider(
             this,
             dashboardViewModelFactory
@@ -242,7 +246,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
             if (responseValidation.isEmpty()) {
                 savePictureInDirectory(editTextTextAnnotationTitle)
                 saveLocation(inputs)
-                viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!)
+                viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!, LATITUDE, LONGITUDE)
             } else {
                 responseValidation.forEach {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()

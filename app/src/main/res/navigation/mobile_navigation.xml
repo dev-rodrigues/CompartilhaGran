@@ -44,5 +44,5 @@
         android:id="@+id/directoryFragment"
         android:name="br.edu.compartilhagran.ui.directory.DirectoryFragment"
         android:label="Directory"
-        tools:layout="@layout/directory_fragment" />
+        tools:layout="@layout/fragment_directory" />
 </navigation>
