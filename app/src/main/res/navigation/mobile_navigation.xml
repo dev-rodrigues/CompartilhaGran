@@ -50,4 +50,9 @@
         android:name="br.edu.compartilhagran.ui.document.DocumentFragment"
         android:label="document_fragment"
         tools:layout="@layout/document_fragment" />
+    <fragment
+        android:id="@+id/showAnnotationFragment"
+        android:name="br.edu.compartilhagran.ui.showAnnotation.ShowAnnotationFragment"
+        android:label="show_annotation_fragment"
+        tools:layout="@layout/show_annotation_fragment" />
 </navigation>
