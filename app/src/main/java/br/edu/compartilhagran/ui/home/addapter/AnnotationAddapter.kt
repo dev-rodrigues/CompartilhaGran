@@ -31,6 +31,9 @@ class AnnotationAddapter(
         var annotationDate: TextView = itemView.findViewById(R.id.annotationDate)
 
         var imageUpload: ImageView = itemView.findViewById(R.id.imageUpload)
+
+        var txtUserNameAnnotation: TextView = itemView.findViewById(R.id.txtUserNameAnnotation)
+        var txtNickNameAnnotation: TextView = itemView.findViewById(R.id.txtNickNameAnnotation)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnnotationAddapter.ViewHolder {
@@ -39,11 +42,13 @@ class AnnotationAddapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: AnnotationAddapter.ViewHolder, position: Int) {
-        val sdf = SimpleDateFormat("dd/M/yyyy")
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
 
         holder.annotationTitle.text = annotations[position].title
         holder.annotationDescription.text = annotations[position].description
         holder.annotationDate.text = sdf.format(annotations[position].createdAt)
+        holder.txtUserNameAnnotation.text = annotations[position].userName
+        holder.txtNickNameAnnotation.text = annotations[position].nickName
 
         val urlImage = annotations[position].urlImage
 

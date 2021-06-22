@@ -70,19 +70,23 @@
             app:srcCompat="@drawable/ic_account" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/txtUserNameAnnotation"
             android:layout_width="293dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="70dp"
             android:layout_marginTop="70dp"
-            android:text="Nome do usuário que postou" />
+            android:text="Nome do usuário que postou"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/txtNickNameAnnotation"
             android:layout_width="293dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="70dp"
             android:layout_marginTop="90dp"
-            android:text="Nick do usuário que postou" />
+            android:text="Nick do usuário que postou"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

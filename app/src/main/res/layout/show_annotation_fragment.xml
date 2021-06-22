@@ -5,11 +5,11 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.showAnnotation.ShowAnnotationFragment" >
+    tools:context=".ui.showAnnotation.ShowAnnotationFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardShowAnnotation"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -36,8 +36,9 @@
             android:id="@+id/textShowDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="310dp"
+            android:layout_marginTop="400dp"
             android:hint="Text Description Annotation"
+            android:paddingBottom="20dp"
             android:textAlignment="center"
             android:textSize="16sp" />
 
@@ -45,7 +46,7 @@
             android:id="@+id/textShowDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="300dp"
             android:layout_marginBottom="15dp"
             android:hint="Text Date Annotation"
             android:textAlignment="center"
@@ -57,6 +58,29 @@
             android:layout_height="231dp"
             android:layout_marginTop="70dp"
             app:srcCompat="@drawable/ic_baseline_image_24" />
+
+        <ImageView
+            android:id="@+id/climaImage"
+            android:layout_width="84dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="330dp"
+            android:src="@drawable/ic_baseline_settings_system_daydream_24" />
+
+        <TextView
+            android:id="@+id/textViewCountry"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="85dp"
+            android:layout_marginTop="345dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/textViewRegion"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="85dp"
+            android:layout_marginTop="365dp"
+            android:text="TextView" />
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
