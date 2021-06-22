@@ -15,7 +15,7 @@ class FindWeatherServiceImpl: FindWeatherService {
     override fun execute(localization: String):WeatherResponse? {
         var response: WeatherResponse ?= null
         CoroutineScope(Dispatchers.IO).launch {
-            //response = weatherstackGateway.getWeather()
+            response = weatherstackGateway.getWeather(localization)
         }
         return response
     }

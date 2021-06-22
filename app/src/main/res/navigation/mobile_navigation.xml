@@ -53,6 +53,6 @@
     <fragment
         android:id="@+id/showAnnotationFragment"
         android:name="br.edu.compartilhagran.ui.showAnnotation.ShowAnnotationFragment"
-        android:label="show_annotation_fragment"
+        android:label="Post Detail"
         tools:layout="@layout/show_annotation_fragment" />
 </navigation>

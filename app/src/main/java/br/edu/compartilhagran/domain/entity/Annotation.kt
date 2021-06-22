@@ -1,7 +1,5 @@
 package br.edu.compartilhagran.domain.entity
 
-import android.graphics.Bitmap
-import br.edu.compartilhagran.infrastructure.gateway.data.WeatherResponse
 import com.google.firebase.firestore.DocumentId
 import java.util.*
 
@@ -13,5 +11,11 @@ class Annotation(
     var title: String ?= null,
     var description: String ?= null,
     var urlImage: String ?= null,
-    var weatherResponse: WeatherResponse ?= null
+    var country: String ?= null,
+    var region: String ?= null,
+    var temperature: Int ?= null,
+    var linkImageTemperature: String ?= null,
+    var profileImage: String ?= null,
+    var userName: String ?= null,
+    var nickName: String ?= null
 )

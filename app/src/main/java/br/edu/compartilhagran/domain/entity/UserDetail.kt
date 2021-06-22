@@ -7,5 +7,6 @@ class UserDetail(
     var id: String ?= null,
     var foreignKey: String ?= null,
     var fullName: String ?= null,
-    var nickName: String ?= null
+    var nickName: String ?= null,
+    val picture: String ?= null
 )

@@ -29,18 +29,16 @@ import br.edu.compartilhagran.R
 import br.edu.compartilhagran.domain.objectvalue.InputText
 import br.edu.compartilhagran.domain.service.InputTextValidation
 import br.edu.compartilhagran.domain.service.impl.InputTextValidationImpl
-import br.edu.compartilhagran.infrastructure.service.AnnotationService
-import br.edu.compartilhagran.infrastructure.service.FindWeatherService
-import br.edu.compartilhagran.infrastructure.service.FirebaseAuthService
-import br.edu.compartilhagran.infrastructure.service.StoreFile
-import br.edu.compartilhagran.infrastructure.service.impl.AnnotationServiceImpl
-import br.edu.compartilhagran.infrastructure.service.impl.FindWeatherServiceImpl
-import br.edu.compartilhagran.infrastructure.service.impl.FirebaseAuthServiceImpl
-import br.edu.compartilhagran.infrastructure.service.impl.StoreFileImpl
+import br.edu.compartilhagran.infrastructure.service.*
+import br.edu.compartilhagran.infrastructure.service.impl.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -63,6 +61,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     private lateinit var annotationService: AnnotationService
     private lateinit var findWeatherService: FindWeatherService
     private lateinit var inputTextValidation: InputTextValidation
+    private lateinit var userDetailService: UserDetailService
     private lateinit var storeFile: StoreFile
 
     private lateinit var gMap: GoogleMap
@@ -75,6 +74,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         val inflate = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
+        userDetailService = UserDetailServiceImpl()
         firebaseAuthService = FirebaseAuthServiceImpl()
         annotationService = AnnotationServiceImpl()
         inputTextValidation = InputTextValidationImpl()
@@ -187,7 +187,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun configureViewModel() {
-        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService, findWeatherService)
+        val dashboardViewModelFactory = DashboardViewModelFactory(firebaseAuthService, annotationService, userDetailService)
         viewModel = ViewModelProvider(
             this,
             dashboardViewModelFactory
@@ -248,7 +248,21 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
             if (responseValidation.isEmpty()) {
                 savePictureInDirectory(editTextTextAnnotationTitle)
                 saveLocation(inputs)
-                viewModel.saveAnnotation(editTextTextAnnotationTitle, editTextTextAnnotationDescription, getB64EncondeImage()!!, LATITUDE, LONGITUDE)
+
+                val LatitudeToString = LATITUDE?.format(3)
+                val LongitudeToString = LONGITUDE?.format(3)
+
+
+                CoroutineScope(Dispatchers.IO).async {
+                    viewModel.saveAnnotation(
+                        editTextTextAnnotationTitle,
+                        editTextTextAnnotationDescription,
+                        getB64EncondeImage()!!,
+                        LatitudeToString,
+                        LongitudeToString
+                    )
+                }
+
             } else {
                 responseValidation.forEach {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()

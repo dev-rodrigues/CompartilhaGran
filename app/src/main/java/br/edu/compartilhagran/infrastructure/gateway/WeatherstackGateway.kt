@@ -6,10 +6,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherstackGateway {
-
-//    @GET("current?access_key=7e8c5c9454ed712da5b2ffe2486e9418&query={long},{lat}")
-//    suspend fun getWeather(@Path("long") long: Double, @Path("lat") lat: Double): WeatherResponse?
-
-    @GET("current?access_key=7e8c5c9454ed712da5b2ffe2486e9418")
+    @GET("current?access_key=06679705370fe05c893cb7655f72d107")
     suspend fun getWeather(@Query("query")  query:String): WeatherResponse?
 }
