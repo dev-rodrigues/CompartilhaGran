@@ -29,7 +29,7 @@ class ShowAnnotationFragment : Fragment() {
         return inflater.inflate(R.layout.show_annotation_fragment, container, false)
     }
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,6 +49,7 @@ class ShowAnnotationFragment : Fragment() {
         textShowTittle.text = title.toString()
         textShowDescription.text = description.toString()
         textShowDate.text = sdf.format(createdAt)
+        temperature.text = annotation?.temperature.toString() + " ºC"
 
         if (!urlImage.isNullOrEmpty()) {
             val handleBitmap = handleBitmap(urlImage)

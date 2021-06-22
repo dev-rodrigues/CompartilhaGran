@@ -48,17 +48,22 @@ class DashboardViewModel(
         title: String,
         description: String,
         picture: String,
-        LATITUDE: String?,
-        LONGITUDE: String?
+        query:String,
     ) {
+        var noComma = query.replace(",",".")
+        var noDotComma = noComma.replace(";",",")
+
+
+        Log.i("INTEGRACAO", query)
+
         val emailKey = firebaseAuthService.getUser().email!!
         findUserDetail(emailKey)
 
         var newAnnotation: Annotation ?= null
 
         val coroutine = CoroutineScope(Dispatchers.IO).async {
-            val query = "$LATITUDE,$LONGITUDE"
-            response = weatherstackGateway.getWeather(query)!!
+
+            response = weatherstackGateway.getWeather(noDotComma)!!
         }
 
         coroutine.await()

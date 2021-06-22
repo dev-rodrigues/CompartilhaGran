@@ -252,14 +252,15 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
                 val LatitudeToString = LATITUDE?.format(3)
                 val LongitudeToString = LONGITUDE?.format(3)
 
+                val query = "$LatitudeToString;$LongitudeToString"
+
 
                 CoroutineScope(Dispatchers.IO).async {
                     viewModel.saveAnnotation(
                         editTextTextAnnotationTitle,
                         editTextTextAnnotationDescription,
                         getB64EncondeImage()!!,
-                        LatitudeToString,
-                        LongitudeToString
+                        query
                     )
                 }
 
