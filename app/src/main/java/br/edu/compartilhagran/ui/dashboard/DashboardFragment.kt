@@ -119,7 +119,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
             gpsEnable -> {
                 getCurrentLocationProvider(locationManager, GPS_PROVIDER)
             }
-            else -> Toast.makeText(requireContext(), "GPS desabilitado", Toast.LENGTH_LONG).show()
+            else -> Toast.makeText(requireContext(), "GPS disable", Toast.LENGTH_LONG).show()
         }
 
     }
@@ -132,7 +132,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
             )
         } catch (e: SecurityException) {
             Log.e("PERMISSÃO", e.message)
-            Toast.makeText(requireContext(), "Deu merda", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Allow Permission", Toast.LENGTH_LONG).show()
         }
     }
 
