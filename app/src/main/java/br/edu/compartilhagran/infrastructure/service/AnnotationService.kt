@@ -10,4 +10,6 @@ interface AnnotationService {
     fun findBy(email:String):Task<QuerySnapshot>
     fun list():Task<QuerySnapshot>
     fun monitorInBackground(key: String): Query
+    fun editAnnotation(annotation: Annotation)
+    fun deleteAnnotation(annotation: Annotation)
 }

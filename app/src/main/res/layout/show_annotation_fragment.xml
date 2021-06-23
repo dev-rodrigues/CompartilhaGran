@@ -16,7 +16,6 @@
         android:textAlignment="center"
         app:cardBackgroundColor="#f7f7f7"
         app:cardCornerRadius="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -102,4 +101,69 @@
             android:text="TextView" />
 
     </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/iptEditTittle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:hint="Título"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textColor="@color/com_facebook_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardShowAnnotation" />
+
+    <EditText
+        android:id="@+id/iptEditDescription"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:hint="Descrição"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textColor="@color/com_facebook_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iptEditTittle" />
+
+    <Button
+        android:id="@+id/btnEditAnnotation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_button"
+        android:text="Editar"
+        android:textColor="@color/instal_effect"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iptEditDescription" />
+
+    <Button
+        android:id="@+id/btnDestroyAnnotation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_button"
+        android:text="Excluir"
+        android:textColor="@color/instal_effect"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEditAnnotation" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

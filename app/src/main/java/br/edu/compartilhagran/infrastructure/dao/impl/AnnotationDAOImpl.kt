@@ -25,11 +25,11 @@ class AnnotationDAOImpl: AnnotationDAO {
     }
 
     override fun destroy(key: String): Task<Void> {
-        throw NotImplementedError("função não implementada")
+        return db.document(key).delete()
     }
 
     override fun update(entity: Annotation, key: String): Task<Void> {
-        throw NotImplementedError("função não implementada")
+        return db.document(key).set(entity)
     }
 
     override fun monitorInBackground(key: String): Query {

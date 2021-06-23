@@ -26,4 +26,12 @@ class AnnotationServiceImpl: AnnotationService {
     override fun monitorInBackground(key: String): Query {
         return dao.monitorInBackground(key)
     }
+
+    override fun editAnnotation(annotation: Annotation) {
+        dao.update(annotation, annotation.id.toString())
+    }
+
+    override fun deleteAnnotation(annotation: Annotation) {
+        dao.destroy(annotation.id.toString())
+    }
 }

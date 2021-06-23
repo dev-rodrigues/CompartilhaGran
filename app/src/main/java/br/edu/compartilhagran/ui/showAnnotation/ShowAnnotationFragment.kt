@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import br.edu.compartilhagran.R
 import br.edu.compartilhagran.ui.home.dto.AnnotationDTO
 import com.squareup.picasso.Picasso
@@ -34,6 +36,8 @@ class ShowAnnotationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(requireActivity()).get(ShowAnnotationViewModel::class.java)
+
         val annotation = AnnotationDTO?.annotationDTO
         val sdf = SimpleDateFormat("dd/M/yyyy")
 
@@ -51,9 +55,29 @@ class ShowAnnotationFragment : Fragment() {
         textShowDate.text = sdf.format(createdAt)
         temperature.text = annotation?.temperature.toString() + " ºC"
 
+        iptEditTittle.setText(title.toString())
+        iptEditDescription.setText(description.toString())
+
         if (!urlImage.isNullOrEmpty()) {
             val handleBitmap = handleBitmap(urlImage)
             imgShowAnnotation.setImageBitmap(handleBitmap)
+        }
+
+        btnDestroyAnnotation.setOnClickListener {
+            if(annotation != null) {
+                viewModel.deleteAnnotation(annotation)
+                findNavController().navigate(R.id.navigation_home)
+            }
+        }
+
+        btnEditAnnotation.setOnClickListener {
+            if(annotation != null) {
+                annotation.title = iptEditTittle.text.toString()
+                annotation.description = iptEditDescription.text.toString()
+
+                viewModel.editAnnotation(annotation)
+                findNavController().navigate(R.id.navigation_home)
+            }
         }
     }
 
@@ -66,5 +90,15 @@ class ShowAnnotationFragment : Fragment() {
             byteArray.size
         )
         return bmImage
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 }
