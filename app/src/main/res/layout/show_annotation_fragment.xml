@@ -38,7 +38,7 @@
             android:id="@+id/textShowDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="280dp"
+            android:layout_marginTop="200dp"
             android:hint="Text Description Annotation"
             android:paddingBottom="20dp"
             android:textAlignment="center"
@@ -48,7 +48,7 @@
             android:id="@+id/textShowDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="280dp"
             android:layout_marginBottom="15dp"
             android:hint="Text Date Annotation"
             android:textAlignment="center"
@@ -57,15 +57,15 @@
         <ImageView
             android:id="@+id/imgShowAnnotation"
             android:layout_width="match_parent"
-            android:layout_height="211dp"
-            android:layout_marginTop="70dp"
+            android:layout_height="147dp"
+            android:layout_marginTop="50dp"
             app:srcCompat="@drawable/ic_baseline_image_24" />
 
         <ImageView
             android:id="@+id/climaImage"
             android:layout_width="84dp"
             android:layout_height="70dp"
-            android:layout_marginTop="325dp"
+            android:layout_marginTop="250dp"
             android:src="@drawable/ic_baseline_settings_system_daydream_24" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="85dp"
-            android:layout_marginTop="345dp"
+            android:layout_marginTop="255dp"
             android:text="TextView" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="85dp"
-            android:layout_marginTop="365dp"
+            android:layout_marginTop="275dp"
             android:text="TextView" />
 
         <ImageView
@@ -89,7 +89,7 @@
             android:layout_width="43dp"
             android:layout_height="70dp"
             android:layout_marginLeft="210dp"
-            android:layout_marginTop="325dp"
+            android:layout_marginTop="255dp"
             android:src="@drawable/thermometer" />
 
         <TextView
@@ -97,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="255dp"
-            android:layout_marginTop="350dp"
+            android:layout_marginTop="255dp"
             android:text="TextView" />
 
     </androidx.cardview.widget.CardView>
@@ -107,63 +107,64 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/custom_input"
         android:drawablePadding="10dp"
         android:hint="Título"
         android:inputType="textPersonName"
         android:padding="5dp"
         android:textColor="@color/com_facebook_blue"
+        app:layout_constraintBottom_toTopOf="@+id/iptEditDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardShowAnnotation" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/iptEditDescription"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/custom_input"
         android:drawablePadding="10dp"
         android:hint="Descrição"
         android:inputType="textPersonName"
         android:padding="5dp"
         android:textColor="@color/com_facebook_blue"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditAnnotation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iptEditTittle" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnEditAnnotation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
         android:text="Editar"
         android:textColor="@color/instal_effect"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnDestroyAnnotation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iptEditDescription" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnDestroyAnnotation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="55dp"
         android:background="@drawable/rounded_button"
         android:text="Excluir"
         android:textColor="@color/instal_effect"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEditAnnotation" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.edu.compartilhagran.databinding.ActivityMainBinding
-
+// https://github.com/dev-rodrigues/CompartilhaGran
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

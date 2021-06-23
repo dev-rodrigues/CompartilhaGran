@@ -16,9 +16,9 @@ class HomeViewModel(
     val annotations: LiveData<List<Annotation>>
         get() = _annotations
 
-    init {
-        background()
-    }
+//    init {
+//        background()
+//    }
 
     fun findAnnotationsToUser() {
         annotationService.findBy(firebaseAuthService.getUser().email!!).addOnSuccessListener {

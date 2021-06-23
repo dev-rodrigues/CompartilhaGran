@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
         val homeViewModelFactory = HomeViewModelFactory(firebaseAuthService, annotationService)
         viewModel = ViewModelProvider(requireActivity(), homeViewModelFactory).get(HomeViewModel::class.java)
 
+
+        viewModel.background()
         viewModel.findAnnotationsToUser()
 
         val viewList = inflate.findViewById<RecyclerView>(R.id.files)
